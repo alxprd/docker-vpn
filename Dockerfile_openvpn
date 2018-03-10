@@ -1,0 +1,13 @@
+FROM debian:stretch
+
+#RUN apt-get update && apt-get -y --no-install-recommends dist-upgrade
+RUN apt-get update
+
+#RUN apt-get install -y --no-install-recommends openvpn
+RUN apt-get install -y openvpn net-tools
+
+ADD bin/ /usr/local/bin
+RUN chmod a+x /usr/local/bin/*
+
+# Internally uses port 1194/udp, remap using `docker run -p 443:1194/tcp`
+EXPOSE 1194/udp

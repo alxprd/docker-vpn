@@ -1,0 +1,4 @@
+#!/bin/bash
+
+openvpn --genkey --secret static.key
+echo "$(cat static.key)"
