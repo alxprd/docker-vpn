@@ -26,3 +26,8 @@ scp _source destination_
 **Open a new bash shell in the running VPN client container:**
 
 `docker exec -i -t vpn-client /bin/bash`
+
+
+**Check public IP:**
+
+`curl ipinfo.io/ip`
