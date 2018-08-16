@@ -20,12 +20,12 @@ scp _source destination_
 
 **Open a new bash shell in the running VPN server container:**
 
-`docker exec -i -t vpn-server /bin/bash`
+`docker exec -it vpn-server bash`
 
 
 **Open a new bash shell in the running VPN client container:**
 
-`docker exec -i -t vpn-client /bin/bash`
+`docker exec -it vpn-client bash`
 
 
 **Check public IP:**
