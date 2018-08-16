@@ -1,6 +1,13 @@
 # docker-vpn
 
 
+**Copy _static.key_ from local host to remote server:**
+
+__scp <source> <destination>__
+
+`scp <local-repo-path>/conf/static.key <remote-user>@<remote-ip>:<remote-repo-path>/conf/`
+
+
 **Check logs from VPN server:**
 
 `docker logs vpn-server`
