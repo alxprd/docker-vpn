@@ -1,0 +1,7 @@
+*filter
+
+-A INPUT -j REJECT
+-A FORWARD -j REJECT
+-A OUTPUT -j REJECT
+
+COMMIT

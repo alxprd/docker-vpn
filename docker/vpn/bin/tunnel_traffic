@@ -1,0 +1,13 @@
+#!/bin/bash
+
+iptables -F && iptables -X
+ip6tables -F && ip6tables -X
+
+#iptables-restore < /root/rules.v4
+#ip6tables-restore < /root/rules.v6
+
+iptables -t nat -A POSTROUTING -s 10.8.0.0/24 -o eth0 -j MASQUERADE
+
+#echo 'net.ipv4.ip_forward=1' >> /etc/sysctl.d/99-sysctl.conf
+
+#sysctl -p
