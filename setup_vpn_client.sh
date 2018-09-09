@@ -13,13 +13,6 @@ if [ -z "${server_ip}" ]; then
         exit 0
 fi
 
-if [ ! -d "$PWD/conf/clients/$client_name" ]; then
-        echo "Client '$client_name' doesn't exist!"
-        exit 0
-fi
-
-#docker run --name vpn-client-setup --rm -v $PWD/conf/clients/$client_name:/etc/openvpn/client alxprd/vpn generate_client_conf
-
 docker run --name vpn-client-setup --rm \
 	-v $PWD/conf/clients/$client_name:/root/client \
 	-v $PWD/conf/client-ca2.ovpn:/root/client.ovpn:ro \
