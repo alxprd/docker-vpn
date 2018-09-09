@@ -37,34 +37,55 @@ Start Client:
 ./start_client.sh <client_name>
 ```
 
+**Copy configuration files between different hosts:**
 
-**Copy _secret_ from local host to remote server:**
+To install a VPN server in a remote host there are several useful scripts.
 
-scp _source destination_
+To copy the relevant configuration files from the Certificate Autority to the remote server you can use:
+```
+setup_ca_server_copy_config_to_remote.sh <server_name> <remote-user>@<remote-ip>:<remote-repo-path>/conf/servers/<remote_server_name>`
+```
+Probably you will get an error (_permission denied_) when copying inside `config/servers/<remote_server_name>` because it uses _scp_ and it's a folder created by a docker container with the user _root_. Use a different path and then move the file manually in the remote server (for example using SSH).
 
-`scp <local-repo-path>/conf/servers/<server_name>/ta.key <remote-user>@<remote-ip>:<remote-repo-path>/conf/servers/<remote_server_name>/`
+To copy the shared secret (`ta.key`) from the remote server to the local host:
+```
+setup_vpn_server_copy_secret_from_remote.sh <server_name> <remote-user>@<remote-ip>:<remote-repo-path>/conf/servers/<remote_server_name>
+```
+Files created inside a docker container like `ta.key` are owned by the user _root_. To be able to copy the shared secret from the server and make it readable for the clients you can use:
+```
+export_secret.sh <server_name>
+```
+This script will create a copy of `ta.key` inside `exported/servers/<server_name>`.
 
+**Useful docker commands:**
 
-**Check logs from VPN server:**
+Check logs from VPN server:
+```
+docker logs <vpn-server-container-name>
+```
 
-`docker logs vpn-server`
+Check logs from VPN client:
+```
+docker logs <vpn-client-container-name>
+```
 
+Open a new bash shell in the running VPN server container:
+```
+docker exec -it <vpn-server-container-name> bash
+```
 
-**Check logs from VPN client:**
+Open a new bash shell in the running VPN client container:
+```
+docker exec -it <vpn-client-container-name> bash
+```
 
-`docker logs vpn-client`
+**Other useful information:**
 
+Check public IP:
+```
+curl ipinfo.io/ip
+```
 
-**Open a new bash shell in the running VPN server container:**
+**Sources:**
 
-`docker exec -it vpn-server bash`
-
-
-**Open a new bash shell in the running VPN client container:**
-
-`docker exec -it vpn-client bash`
-
-
-**Check public IP:**
-
-`curl ipinfo.io/ip`
+[Setup a hardened OpenVPN server](https://www.linode.com/docs/networking/vpn/set-up-a-hardened-openvpn-server/).
