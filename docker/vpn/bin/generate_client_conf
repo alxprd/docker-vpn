@@ -1,0 +1,11 @@
+#!/bin/bash
+
+server_ip=$1
+
+rm -f /root/client/client.ovpn
+cp /root/client.ovpn /root/client/client.ovpn
+
+perl -i -pe "s/remote <server IP address>/remote $server_ip/g;" /root/client/client.ovpn
+#perl -i -pe "s/remote my-server-1/remote $server_ip/g;" /root/client/client.ovpn
+
+echo "File client.ovpn created with server ip '$server_ip'."

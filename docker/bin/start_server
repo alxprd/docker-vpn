@@ -1,7 +1,0 @@
-#!/bin/bash
-
-ifconfig
-
-cd /conf
-
-openvpn server.conf

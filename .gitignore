@@ -1,2 +1,6 @@
 conf/client.conf
 conf/static.key
+conf/ca
+conf/servers
+conf/clients
+conf/keys

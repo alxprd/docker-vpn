@@ -1,0 +1,4 @@
+#!/bin/bash
+
+rm -f /etc/openvpn/server/dhp4096.pem
+openssl genpkey -genparam -algorithm DH -out /etc/openvpn/server/dhp4096.pem -pkeyopt dh_paramgen_prime_len:4096

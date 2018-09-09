@@ -1,7 +1,17 @@
 #!/bin/bash
 
-rm -f ./conf/client.conf
-echo "remote $1" >> ./conf/client.conf
-cat ./conf/client-template.conf >> ./conf/client.conf
+client_name=$1
 
-docker run --name vpn-client --rm --privileged -v $PWD/conf:/conf -d alxprd/vpn start_client
+if [ -z "${client_name}" ]; then
+        echo "Asign a valid client name!"
+        exit 0
+fi
+
+if [ ! -d "$PWD/conf/clients/$client_name" ]; then
+        echo "Client '$client_name' doesn't exist!"
+        exit 0
+fi
+
+docker run --name "vpn-client-${client_name}" --rm --privileged \
+	-v $PWD/conf/clients/$client_name:/etc/openvpn/client:ro \
+	-d alxprd/vpn start_client

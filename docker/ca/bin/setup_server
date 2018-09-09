@@ -1,0 +1,18 @@
+#!/bin/bash
+
+source ./vars
+
+server_name=$1
+
+echo "Create server's private key ($server_name):"
+./build-key-server $server_name
+
+rm -f ../servers/$server_name/ca.crt
+rm -f ../servers/$server_name/server.crt
+rm -f ../servers/$server_name/server.key
+
+mkdir -p ../servers/$server_name
+
+cp ./keys/ca.crt           ../servers/$server_name/ca.crt
+cp ./keys/$server_name.crt ../servers/$server_name/server.crt
+cp ./keys/$server_name.key ../servers/$server_name/server.key

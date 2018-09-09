@@ -1,0 +1,8 @@
+#!/bin/bash
+
+ifconfig
+
+#cd /conf
+#openvpn server.conf
+
+openvpn /etc/openvpn/server.conf
