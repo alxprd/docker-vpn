@@ -14,4 +14,4 @@ fi
 
 docker run --name "vpn-client-${client_name}" --rm --privileged \
 	-v $PWD/conf/clients/$client_name:/etc/openvpn/client:ro \
-	-d alxprd/vpn start_client
+	-d alxprd/vpn-client
