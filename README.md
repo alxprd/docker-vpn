@@ -89,3 +89,4 @@ curl ipinfo.io/ip
 **Sources:**
 
 [Setup a hardened OpenVPN server](https://www.linode.com/docs/networking/vpn/set-up-a-hardened-openvpn-server/).
+[Tunnel your internet traffic through an OpenVPN server](https://www.linode.com/docs/networking/vpn/tunnel-your-internet-traffic-through-an-openvpn-server/).
