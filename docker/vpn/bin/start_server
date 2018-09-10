@@ -1,10 +1,10 @@
-#!/bin/bash
+#!/bin/sh
 
-tunnel_traffic
+#iptables -F && iptables -X
+#ip6tables -F && ip6tables -X
+#iptables-restore < /root/rules.v4
+#ip6tables-restore < /root/rules.v6
 
-ifconfig
-
-#cd /conf
-#openvpn server.conf
+iptables -t nat -A POSTROUTING -s 10.8.0.0/24 -o eth0 -j MASQUERADE
 
 openvpn /etc/openvpn/server.conf

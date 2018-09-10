@@ -15,4 +15,4 @@ fi
 docker run --name "vpn-server-${server_name}" --rm --privileged -p 1194:1194/udp \
 	-v $PWD/conf/servers/$server_name:/etc/openvpn/server:ro \
 	-v $PWD/conf/server-ca2.conf:/etc/openvpn/server.conf:ro \
-	-d alxprd/vpn start_server
+	-d alxprd/vpn-server
