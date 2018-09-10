@@ -2,11 +2,11 @@ FROM debian:stretch
 
 # Install wget to get the GPG keys to sign packages from OpenVPN repos
 # Install gnupg to use with wget (apt-key add -)
-# Install iptables-persistent to use iptables
+# Install iptables to use iptables
 # Install systemd to use systemctl
 # Install net-tools to use ifconfig
 # Install curl to check current public ip
-RUN apt-get update && apt-get install -y wget gnupg iptables-persistent systemd net-tools curl
+RUN apt-get update && apt-get install -y wget gnupg iptables systemd net-tools curl
 
 # Import the public GPG key that is used to sign the packages:
 RUN wget -O - https://swupdate.openvpn.net/repos/repo-public.gpg | apt-key add -
