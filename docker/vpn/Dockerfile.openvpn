@@ -8,6 +8,9 @@ FROM debian:stretch
 # Install curl to check current public ip
 RUN apt-get update && apt-get install -y wget gnupg iptables systemd net-tools curl
 
+# This is only for the clients to be able to modify /etc/resolv.conf
+RUN apt-get install -y openresolv
+
 # Import the public GPG key that is used to sign the packages:
 RUN wget -O - https://swupdate.openvpn.net/repos/repo-public.gpg | apt-key add -
 
