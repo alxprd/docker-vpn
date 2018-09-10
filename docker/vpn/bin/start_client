@@ -1,8 +1,0 @@
-#!/bin/bash
-
-ifconfig
-
-#cd /conf
-
-#openvpn /etc/openvpn/client.ovpn
-openvpn /etc/openvpn/client/client.ovpn

@@ -1,0 +1,40 @@
+persist-tun
+persist-key
+cipher AES-256-CBC
+auth SHA1
+tls-client
+client
+remote MY IP udp
+lport 0
+verify-x509-name "DDN" name
+auth-user-pass
+ns-cert-type server
+
+<ca>
+-----BEGIN CERTIFICATE-----
+snip
+-----END CERTIFICATE-----
+</ca>
+
+<cert>
+-----BEGIN CERTIFICATE-----
+snip
+-----END CERTIFICATE-----
+</cert>
+
+<key>
+-----BEGIN PRIVATE KEY-----
+snip
+-----END PRIVATE KEY-----
+</key>
+
+<tls-auth>
+#
+# 2048 bit OpenVPN static key
+#
+-----BEGIN OpenVPN Static key V1-----
+snip
+-----END OpenVPN Static key V1-----
+</tls-auth>
+
+key-direction 1
