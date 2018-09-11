@@ -1,10 +1,12 @@
 #!/bin/sh
 
-#iptables -F && iptables -X
-#ip6tables -F && ip6tables -X
-#iptables-restore < /root/rules.v4
-#ip6tables-restore < /root/rules.v6
+iptables -F && iptables -X
+ip6tables -F && ip6tables -X
+iptables-restore < /root/files/rules.v4
+ip6tables-restore < /root/files/rules.v6
 
 iptables -t nat -A POSTROUTING -s 10.8.0.0/24 -o eth0 -j MASQUERADE
 
-openvpn /etc/openvpn/server.conf
+unzip -j /root/server.zip -d /etc/openvpn/server
+
+openvpn /etc/openvpn/server/server.conf
