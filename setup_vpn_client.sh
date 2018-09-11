@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 client_name=$1
 server_ip=$2
@@ -13,7 +13,11 @@ if [ -z "${server_ip}" ]; then
         exit 0
 fi
 
+rm -f $PWD/conf/clients/$client_name/client.ovpn
+cp $PWD/conf/client-template.ovpn $PWD/conf/clients/$client_name/client.ovpn
+
 docker run --name vpn-client-setup --rm \
 	-v $PWD/conf/clients/$client_name:/root/client \
-	-v $PWD/conf/client-ca2.ovpn:/root/client.ovpn:ro \
-	alxprd/vpn-perl generate_client_conf $server_ip
+	perl perl -i -pe "s/remote <server IP address>/remote $server_ip/g;" /root/client/client.ovpn
+
+echo "File client.ovpn created with server ip '$server_ip'."

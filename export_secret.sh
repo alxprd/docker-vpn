@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 server_name=$1
 

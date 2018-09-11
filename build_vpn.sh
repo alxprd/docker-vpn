@@ -1,6 +1,7 @@
-#!/bin/bash
+#!/bin/sh
 
-docker build -t alxprd/vpn -f ./docker/vpn/Dockerfile.openvpn ./docker/vpn/
-docker build -t alxprd/vpn-server -f ./docker/vpn/Dockerfile.server.ovpn.alpine ./docker/vpn/
-docker build -t alxprd/vpn-client -f ./docker/vpn/Dockerfile.client.ovpn.alpine ./docker/vpn/
-docker build -t alxprd/vpn-perl -f ./docker/vpn/Dockerfile.perl ./docker/vpn/
+#docker build -t alxprd/vpn        -f ./docker/Dockerfile_ovpn        ./docker/
+docker build -t alxprd/vpn-server -f ./docker/Dockerfile_ovpn.server ./docker/
+docker build -t alxprd/vpn-client -f ./docker/Dockerfile_ovpn.client ./docker/
+#docker build -t alxprd/vpn-perl   -f ./docker/Dockerfile.perl        ./docker/
+docker pull perl

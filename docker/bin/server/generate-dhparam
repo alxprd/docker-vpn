@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 # Generate Diffie-Hellman parameter. This is a set of randomly
 # generated data used when establishing Perfect Forward Secrecy

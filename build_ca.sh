@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
-docker build -t alxprd/ca -f ./docker/ca/Dockerfile ./docker/ca/
-docker build -t alxprd/ca-scp -f ./docker/ca/Dockerfile.scp ./docker/ca/
+docker build -t alxprd/ca     -f ./docker/Dockerfile.ca  ./docker/
+docker build -t alxprd/ca-scp -f ./docker/Dockerfile.scp ./docker/

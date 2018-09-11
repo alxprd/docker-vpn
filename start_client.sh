@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 client_name=$1
 

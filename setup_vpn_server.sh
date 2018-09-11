@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 server_name=$1
 
@@ -7,5 +7,5 @@ if [ -z "${server_name}" ]; then
         exit 0
 fi
 
-docker run --name vpn-server-setup --rm -v $PWD/conf/servers/$server_name:/etc/openvpn/server alxprd/vpn generate_secret
-docker run --name vpn-server-setup --rm -v $PWD/conf/servers/$server_name:/etc/openvpn/server alxprd/vpn generate_dhparam
+docker run --name vpn-server-setup --rm -v $PWD/conf/servers/$server_name:/etc/openvpn/server alxprd/vpn generate-secret
+docker run --name vpn-server-setup --rm -v $PWD/conf/servers/$server_name:/etc/openvpn/server alxprd/vpn generate-dhparam
