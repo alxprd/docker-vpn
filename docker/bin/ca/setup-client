@@ -1,20 +1,104 @@
 #!/bin/sh
 
-source ./vars
+echo_template() {
+	echo "Use: setup-client <client_name> <server_name> <server_address>"
+}
+
+create_keys() {
+	echo "Create '$client_name' crt/key in CA"
+	. ./vars
+	./build-key $client_name
+	# Anyone with access to client1.key will be able to access your VPN. To better protect
+	# against this scenario, you can issue ./build-key-pass $client_name instead to build a
+	# client key which is encrypted with a passphrase.
+}
+
+export_keys() {
+	echo "Export '$client_name' CA files (ca.crt, client.crt, client.key)"
+	rm -f $export_dir/ca.crt
+	rm -f $export_dir/client.crt
+	rm -f $export_dir/client.key
+	cp $ca_keys_dir/ca.crt           $export_dir/ca.crt
+	cp $ca_keys_dir/$client_name.crt $export_dir/client.crt
+	cp $ca_keys_dir/$client_name.key $export_dir/client.key
+}
+
+add_server_secret() {
+	echo "Add server secret (ta.key)"
+	rm -f $export_dir/ta.key
+	cp $secrets_dir/$secret_name $export_dir/ta.key
+}
+
+add_client_conf() {
+	echo "Add client config (client.ovpn)"
+	rm -f $export_dir/client.ovpn
+	cp /root/files/client-template.ovpn $export_dir/client.ovpn
+}
+
+set_remote() {
+	echo "Set remote server address to '$server_address'"
+	perl -i -pe "s/remote <server address>/remote $server_address/g;" $export_dir/client.ovpn
+}
+
+create_package() {
+	echo "Create server config package"
+	rm -f $output_dir/$package_name
+	zip -j $output_dir/$package_name $export_dir/*
+	# If you have sensitive information that you want to store in a zip
+	# file, use the -e command to encrypt it. You are asked to enter a
+	# password and to repeat the password:
+	#zip -j $output_dir/$package_name -r $export_dir/* -e
+}
+
+export_package() {
+	mkdir -p $export_dir
+	export_keys
+	add_server_secret
+	add_client_conf
+	set_remote
+	create_package
+}
 
 client_name=$1
+server_name=$2
+server_address=$3
 
-echo "Create client's private key ($client_name):"
-./build-key $client_name
+if [ -z "${client_name}" ]; then
+	echo "Asign a valid client name!"
+	echo_template
+	exit 0
+fi
 
-# Anyone with access to client1.key will be able to access your VPN. To better protect against this scenario, you can issue ./build-key-pass client1 instead to build a client key which is encrypted with a passphrase.
+if [ -z "${server_name}" ]; then
+	echo "Asign a valid server name!"
+	echo_template
+	exit 0
+fi
 
-rm -f ../clients/$client_name/ca.crt
-rm -f ../clients/$client_name/client.crt
-rm -f ../clients/$client_name/client.key
+if [ -z "${server_address}" ]; then
+	echo "Asign a valid server address!"
+	echo_template
+	exit 0
+fi
 
-mkdir -p ../clients/$client_name
+secret_name=${server_name}-ta.key
+package_name=${client_name}.zip
+ca_keys_dir=/root/ca/keys
+secrets_dir=$ca_keys_dir/secrets
+export_dir=/root/$client_name
+output_dir=/root/output
 
-cp ./keys/ca.crt           ../clients/$client_name/ca.crt
-cp ./keys/$client_name.crt ../clients/$client_name/client.crt
-cp ./keys/$client_name.key ../clients/$client_name/client.key
+if [ ! -f "$secrets_dir/$secret_name" ]; then
+	echo "Server secret for '$server_name' doesn't exist in CA!"
+	exit 0
+fi
+
+
+if [ -f "$ca_keys_dir/${client_name}.key" ]; then
+	echo "Client '$client_name' exist in CA"
+else
+	echo "Client '$client_name' doesn't exist in CA"
+	create_keys
+fi
+
+export_package

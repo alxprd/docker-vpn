@@ -18,4 +18,4 @@ if [ ! -d "$PWD/conf/servers/$server_name" ]; then
         exit 0
 fi
 
-docker run --rm -v $PWD/conf/servers/$server_name:/root/config -it alxprd/ca-scp scp config/{ca.crt,server.crt,server.key} $remote
+docker run --rm -v $PWD/conf/servers/$server_name:/root/config -it alxprd/vpn-ca-scp scp config/{ca.crt,server.crt,server.key} $remote
