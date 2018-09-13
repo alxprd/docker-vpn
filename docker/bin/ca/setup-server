@@ -1,8 +1,12 @@
 #!/bin/sh
 
+echo_template() {
+	echo "Use: setup-server <server_name>"
+}
+
 create_keys() {
 	echo "Create '$server_name' crt/key in CA"
-	source ./vars
+	. ./vars
 	./build-key-server $server_name
 }
 
@@ -11,9 +15,9 @@ export_keys() {
 	rm -f $export_dir/ca.crt
 	rm -f $export_dir/server.crt
 	rm -f $export_dir/server.key
-	cp $ca_dir/ca.crt           $export_dir/ca.crt
-	cp $ca_dir/$server_name.crt $export_dir/server.crt
-	cp $ca_dir/$server_name.key $export_dir/server.key
+	cp $ca_keys_dir/ca.crt           $export_dir/ca.crt
+	cp $ca_keys_dir/$server_name.crt $export_dir/server.crt
+	cp $ca_keys_dir/$server_name.key $export_dir/server.key
 }
 
 generate_dhparam() {
@@ -36,8 +40,11 @@ generate_secret() {
 	# the TLS handshake between the server and connecting clients.
 	# Packets without this signature are dropped. To generate the HMAC
 	# signature file:
+	rm -f $secrets_dir/$secret_name
+	mkdir -p $secrets_dir
+	openvpn --genkey --secret $secrets_dir/$secret_name
 	rm -f $export_dir/ta.key
-	openvpn --genkey --secret $export_dir/ta.key
+	cp $secrets_dir/$secret_name $export_dir/ta.key
 }
 
 add_server_conf() {
@@ -66,12 +73,21 @@ export_package() {
 }
 
 server_name=$1
-package_name=$server_name.zip
-ca_dir=/root/ca
+
+if [ -z "${server_name}" ]; then
+	echo "Asign a valid server name!"
+	echo_template
+	exit 0
+fi
+
+secret_name=${server_name}-ta.key
+package_name=${server_name}.zip
+ca_keys_dir=/root/ca/keys
+secrets_dir=$ca_keys_dir/secrets
 export_dir=/root/$server_name
 output_dir=/root/output
 
-if [ -f "$ca_dir/$server_name.key" ]; then
+if [ -f "$ca_keys_dir/${server_name}.key" ]; then
 	echo "Server '$server_name' exist in CA"
 else
 	echo "Server '$server_name' doesn't exist in CA"
@@ -79,6 +95,3 @@ else
 fi
 
 export_package
-
-
-
