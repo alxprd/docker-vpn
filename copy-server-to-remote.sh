@@ -1,9 +1,16 @@
 #!/bin/sh
 
 server_package_path=$1
+remote=$2
+
 
 if [ -z "${server_package_path}" ]; then
 	echo "Asign a valid server package path!"
+	exit 0
+fi
+
+if [ -z "${remote}" ]; then
+	echo "Asign a valid remote path (<user>@<remote-ip>:<path>)!"
 	exit 0
 fi
 
@@ -17,8 +24,8 @@ if [ ! -f "$server_package_path" ]; then
 	exit 0
 fi
 
-server_name=$(basename "${server_package_path%.*}")
+server_package_name=$(basename "${server_package_path}")
 
-docker run --name "vpn-server-${server_name}" --rm --privileged -p 1194:1194/udp \
-	-v $server_package_path:/root/server.zip:ro \
-	-d alxprd/vpn:server
+docker run --name copy-vpn-server --rm \
+	-v $server_package_path:/root/$server_package_name:ro \
+	-it alxprd/vpn:ca scp /root/$server_package_name $remote

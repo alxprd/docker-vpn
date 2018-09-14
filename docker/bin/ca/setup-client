@@ -3,7 +3,7 @@
 . /root/files/commons.sh
 
 echo_template() {
-	echo "Use: setup-client <ca_package_path> <client_name> <server_name> <server_address>"
+	echo "Use: setup-client <client_name> <server_name> <server_address>"
 }
 
 client_name=$1

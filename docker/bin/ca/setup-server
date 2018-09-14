@@ -3,7 +3,7 @@
 . /root/files/commons.sh
 
 echo_template() {
-	echo "Use: setup-server <ca_package_path> <server_name>"
+	echo "Use: setup-server <server_name>"
 }
 
 server_name=$1

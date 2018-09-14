@@ -1,6 +1,6 @@
 FROM debian:stretch
 
-RUN apt-get update && apt-get install -y openvpn zip
+RUN apt-get update && apt-get install -y openvpn zip openssh-client
 
 RUN make-cadir /root/ca
 
