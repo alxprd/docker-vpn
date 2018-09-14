@@ -38,7 +38,7 @@ else
 	ca_needs_update=true
 fi
 
-#generate_dhparam
+generate_dhparam
 
 if [ "$ca_needs_update" = true ] ; then
 	update_ca_package
