@@ -40,7 +40,7 @@ Creates three images:
 ```
 Creates a package (`data/ca_name.tar`) with all the keys and files of the CA.
 
-##### 4. Create Server:
+##### 4. Create Server:
 ```
 ./setup-server.sh <ca_package_path> <server_name>
 # Example: ./setup-server.sh ./data/ca.tar server1
