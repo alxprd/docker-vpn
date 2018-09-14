@@ -9,7 +9,7 @@ Implementation of a [VPN network](https://en.wikipedia.org/wiki/Virtual_private_
 - Lightweight server and client containers based on [Alpine Linux](https://hub.docker.com/_/alpine/).
 - The server and client configuration files are contained in a single [ZIP](https://www.computerhope.com/unix/zip.htm) file.
 - It's possible to create a single configuration file for each client in `ovpn` format that contains all the necesary certificates and keys.
-- All the internet trafic is tunneled through the VPN.
+- All the internet traffic is tunneled through the VPN.
 - Clients inside the same VPN network can connect with each other.
 
 ### Repositories:
