@@ -45,7 +45,7 @@ Creates a package (`data/ca_name.tar`) with all the keys and files of the CA.
 ./setup-server.sh <ca_package_path> <server_name>
 # Example: ./setup-server.sh ./data/ca.tar server1
 ```
-Creates a package (`data/server_name.zip`) with all the OpenVPN server configuration files. Creates a new certificate/key pair named `server_name` inside the C.A package if it doesn't exist.
+Creates a package (`data/server_name.zip`) with all the OpenVPN server configuration files. Creates a new certificate/key pair named `server_name` inside the CA package if it doesn't exist.
 
 *Optional:*
 ```
@@ -60,7 +60,7 @@ Copy an existing server config package to a remote host using [scp](https://www.
 # Example 1: ./setup-client.sh ./data/ca.tar client1 server1 172.17.0.2
 # Example 2: ./setup-client.sh ./data/ca.tar client2 server1 172.17.0.2 -compact
 ```
-Creates a package (`data/client_name.zip`) with all the OpenVPN client configuration files to connect to `server_name`. Creates a new certificate/key pair named `client_name` inside the C.A package if it doesn't exist. The server `server_name` must be created in advance in the CA package to be able to get the shared secret (`ta.key`). `server_address` is the address of the remote host where the server is running. If the flag `-compact` is used only one file (`data/client_name.ovpn`) will be created containing all the information needed to connect to the server.
+Creates a package (`data/client_name.zip`) with all the OpenVPN client configuration files to connect to `server_name`. Creates a new certificate/key pair named `client_name` inside the CA package if it doesn't exist. The server `server_name` must be created in advance in the CA package to be able to get the shared secret (`ta.key`). `server_address` is the address of the remote host where the server is running. If the flag `-compact` is used only one file (`data/client_name.ovpn`) will be created containing all the information needed to connect to the server.
 
 ##### 6. Start Server:
 ```
