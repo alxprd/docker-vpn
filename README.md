@@ -8,7 +8,7 @@ Implementation of a [VPN network](https://en.wikipedia.org/wiki/Virtual_private_
 - The Certificate Authority keys are contained in a single [TAR](https://www.computerhope.com/unix/utar.htm) file. It's possible to have different CA at the same time.
 - Lightweight server and client containers based on [Alpine Linux](https://hub.docker.com/_/alpine/).
 - The server and client configuration files are contained in a single [ZIP](https://www.computerhope.com/unix/zip.htm) file.
-- It's possible to create a single configuration file for each client in `ovpn` format that contains all the necesary certificates and keys.
+- It's possible to create a single configuration file for each client in `ovpn` format that contains all the necessary certificates and keys.
 - All the internet traffic is tunneled through the VPN.
 - Clients inside the same VPN network can connect with each other.
 
