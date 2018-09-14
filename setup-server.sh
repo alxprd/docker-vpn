@@ -9,9 +9,9 @@ if [ -z "${ca_package_path}" ]; then
 fi
 
 # If it's a relative path adds $PWD to make it work with Docker
-if [ "${ca_package_path:0:1}" != "/" ]; then
-	ca_package_path=$PWD/$ca_package_path
-fi
+case $ca_package_path in
+  *) ca_package_path=$PWD/$ca_package_path ;;
+esac
 
 if [ ! -f "$ca_package_path" ]; then
 	echo "CA keys package '$ca_package_path' doesn't exist!"

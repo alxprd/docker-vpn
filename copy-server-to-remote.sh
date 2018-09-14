@@ -15,9 +15,9 @@ if [ -z "${remote}" ]; then
 fi
 
 # If it's a relative path adds $PWD to make it work with Docker
-if [ "${server_package_path:0:1}" != "/" ]; then
-	server_package_path=$PWD/$server_package_path
-fi
+case $server_package_path in
+  *) server_package_path=$PWD/$server_package_path ;;
+esac
 
 if [ ! -f "$server_package_path" ]; then
 	echo "Server package '$server_package_path' doesn't exist!"

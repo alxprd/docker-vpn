@@ -8,9 +8,9 @@ if [ -z "${client_package_path}" ]; then
 fi
 
 # If it's a relative path adds $PWD to make it work with Docker
-if [ "${client_package_path:0:1}" != "/" ]; then
-	client_package_path=$PWD/$client_package_path
-fi
+case $client_package_path in
+  *) client_package_path=$PWD/$client_package_path ;;
+esac
 
 if [ ! -f "$client_package_path" ]; then
 	echo "Client package '$client_package_path' doesn't exist!"
