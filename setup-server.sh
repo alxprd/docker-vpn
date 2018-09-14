@@ -10,7 +10,8 @@ fi
 
 # If it's a relative path adds $PWD to make it work with Docker
 case $ca_package_path in
-  *) ca_package_path=$PWD/$ca_package_path ;;
+	/*) ;;
+	*) server_package_path=$PWD/$server_package_path ;;
 esac
 
 if [ ! -f "$ca_package_path" ]; then
