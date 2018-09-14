@@ -123,14 +123,14 @@ set_remote() {
 
 set_client_keys() {
 	echo "Set CA files paths in client config"
-	local entry_ca='ca \/etc\/openvpn\/client\/ca.crt'
-	local entry_cert='cert \/etc\/openvpn\/client\/client.crt'
-	local entry_key='key \/etc\/openvpn\/client\/client.key'
-	local entry_ta='tls-auth \/etc\/openvpn\/client\/ta.key'
-	perl -i -pe "s/ca <ca.crt>/$entry_ca/g;" $export_dir/client.ovpn
-	perl -i -pe "s/cert <client.crt>/$entry_cert/g;" $export_dir/client.ovpn
-	perl -i -pe "s/key <client.key>/$entry_key/g;" $export_dir/client.ovpn
-	perl -i -pe "s/tls-auth <ta.key>/$entry_ta/g;" $export_dir/client.ovpn
+	local entry_ca='ca /etc/openvpn/client/ca.crt'
+	local entry_cert='cert /etc/openvpn/client/client.crt'
+	local entry_key='key /etc/openvpn/client/client.key'
+	local entry_ta='tls-auth /etc/openvpn/client/ta.key'
+	perl -i -pe "s~ca <ca.crt>~$entry_ca~g;" $export_dir/client.ovpn
+	perl -i -pe "s~cert <client.crt>~$entry_cert~g;" $export_dir/client.ovpn
+	perl -i -pe "s~key <client.key>~$entry_key~g;" $export_dir/client.ovpn
+	perl -i -pe "s~tls-auth <ta.key>~$entry_tag;" $export_dir/client.ovpn
 }
 
 # ----------------------
