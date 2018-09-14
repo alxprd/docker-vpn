@@ -1,9 +1,21 @@
 #!/bin/sh
 
-source ./vars
-./clean-all
+. /root/files/commons.sh
 
-echo "Create root certificate (Certificate Authority):"
-./build-ca
+echo_template() {
+	echo "Use: build-ca <ca_name>"
+}
 
-cp -r ./keys/* ../keys-ext/
+ca_name=$1
+
+if [ -z "${ca_name}" ]; then
+	echo "Asign a valid CA name!"
+	echo_template
+	exit 0
+fi
+
+. /root/files/vars.sh
+ca_package_name=${ca_name}.tar
+
+build_ca
+create_ca_package

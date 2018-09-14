@@ -2,6 +2,6 @@
 
 mkdir -p /etc/openvpn/client
 
-unzip -j /root/client.zip -d /etc/openvpn/client
+unzip /root/client.zip -d /etc/openvpn/client
 
 openvpn /etc/openvpn/client/client.ovpn

@@ -1,5 +1,5 @@
 #!/bin/sh
 
-rm -rf ./conf/keys
-mkdir -p ./conf/keys
-docker run --name ca-setup --rm -v $PWD/conf/keys:/root/keys-ext -it alxprd/vpn-ca build-ca
+docker run --name vpn-setup --rm \
+	-v $PWD/data:/root/output \
+	-it alxprd/vpn-ca build-ca "$@"
