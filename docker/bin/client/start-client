@@ -1,7 +1,12 @@
 #!/bin/sh
 
-mkdir -p /etc/openvpn/client
-
-unzip /root/client.zip -d /etc/openvpn/client
-
-openvpn /etc/openvpn/client/client.ovpn
+if [ -f "/root/client.ovpn" ]; then
+	openvpn /root/client.ovpn
+elif [ -f "/root/client.zip" ]; then
+	mkdir -p /etc/openvpn/client
+	unzip /root/client.zip -d /etc/openvpn/client
+	openvpn /etc/openvpn/client/client.ovpn
+else
+	echo "No file 'client.ovpn' found!"
+	exit 0
+fi

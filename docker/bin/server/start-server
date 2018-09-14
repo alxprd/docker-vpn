@@ -7,8 +7,11 @@ ip6tables-restore < /root/files/rules.v6
 
 iptables -t nat -A POSTROUTING -s 10.8.0.0/24 -o eth0 -j MASQUERADE
 
-mkdir -p /etc/openvpn/server
-
-unzip /root/server.zip -d /etc/openvpn/server
-
-openvpn /etc/openvpn/server/server.conf
+if [ -f "/root/server.zip" ]; then
+	mkdir -p /etc/openvpn/server
+	unzip /root/server.zip -d /etc/openvpn/server
+	openvpn /etc/openvpn/server/server.conf
+else
+	echo "No file 'server.conf' found!"
+	exit 0
+fi

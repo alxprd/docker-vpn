@@ -3,7 +3,7 @@
 . /root/files/commons.sh
 
 echo_template() {
-	echo "Use: setup-client <client_name> <server_name> <server_address>"
+	echo "Use: setup-client <client_name> <server_name> <server_address> [-compact]"
 }
 
 client_name=$1
@@ -28,6 +28,12 @@ if [ -z "${server_address}" ]; then
 	exit 0
 fi
 
+if [ "$4" = "-compact" ]; then
+	compact=true
+else
+	compact=false
+fi
+
 name=$client_name
 type_keys=client
 . /root/files/vars.sh
@@ -50,6 +56,12 @@ fi
 export_keys
 export_server_secret
 export_client_conf
-set_client_keys
 set_remote
-create_package
+
+if [ "$compact" = true ]; then
+	set_client_keys_compact
+	output_client_conf_compact
+else
+	set_client_keys
+	create_package
+fi

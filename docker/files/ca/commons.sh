@@ -127,10 +127,22 @@ set_client_keys() {
 	local entry_cert='cert /etc/openvpn/client/client.crt'
 	local entry_key='key /etc/openvpn/client/client.key'
 	local entry_ta='tls-auth /etc/openvpn/client/ta.key'
-	perl -i -pe "s~ca <ca.crt>~$entry_ca~g;" $export_dir/client.ovpn
-	perl -i -pe "s~cert <client.crt>~$entry_cert~g;" $export_dir/client.ovpn
-	perl -i -pe "s~key <client.key>~$entry_key~g;" $export_dir/client.ovpn
-	perl -i -pe "s~tls-auth <ta.key>~$entry_tag;" $export_dir/client.ovpn
+	perl -i -pe "s~ca <ca.crt>~$entry_ca~g" $export_dir/client.ovpn
+	perl -i -pe "s~cert <client.crt>~$entry_cert~g" $export_dir/client.ovpn
+	perl -i -pe "s~key <client.key>~$entry_key~g" $export_dir/client.ovpn
+	perl -i -pe "s~tls-auth <ta.key>~$entry_tag~g" $export_dir/client.ovpn
+}
+
+set_client_keys_compact() {
+	echo "Set CA files content inside client config (COMPACT!)"
+	content_ca=$(cat $export_dir/ca.crt)
+	content_crt=$(cat $export_dir/${type_keys}.crt)
+	content_key=$(cat $export_dir/${type_keys}.key)
+	content_ta=$(cat $export_dir/ta.key)
+	perl -i -pe "s~ca <ca.crt>~<ca>\n$content_ca\n</ca>~g" $export_dir/client.ovpn
+	perl -i -pe "s~cert <client.crt>~<cert>\n$content_crt\n</cert>~g" $export_dir/client.ovpn
+	perl -i -pe "s~key <client.key>~<key>\n$content_key\n</key>~g" $export_dir/client.ovpn
+	perl -i -pe "s~tls-auth <ta.key>~<tls-auth>\n$content_ta\n</tls-auth>~g" $export_dir/client.ovpn
 }
 
 # ----------------------
@@ -144,6 +156,12 @@ create_package() {
 	# file, use the -e command to encrypt it. You are asked to enter a
 	# password and to repeat the password:
 	#zip -r $output_dir/$package_name $export_dir/* -e
+}
+
+output_client_conf_compact() {
+	echo "Output compact client config (${name}.ovpn)"
+	rm -f $output_dir/${name}.ovpn
+	cp $export_dir/client.ovpn $output_dir/${name}.ovpn
 }
 
 # ----------------------

@@ -19,7 +19,9 @@ if [ ! -f "$client_package_path" ]; then
 fi
 
 client_name=$(basename "${client_package_path%.*}")
+filename=$(basename "$client_package_path")
+ext="${filename##*.}"
 
 docker run --name "vpn-client-${client_name}" --rm --privileged \
-	-v $client_package_path:/root/client.zip:ro \
+	-v $client_package_path:/root/client.$ext:ro \
 	-d alxprd/vpn:client
