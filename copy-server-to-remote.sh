@@ -3,14 +3,13 @@
 server_package_path=$1
 remote=$2
 
-
 if [ -z "${server_package_path}" ]; then
 	echo "Asign a valid server package path!"
 	exit 0
 fi
 
 if [ -z "${remote}" ]; then
-	echo "Asign a valid remote path (<user>@<remote-ip>:<path>)!"
+	echo "Asign a valid remote path (user@host:path)!"
 	exit 0
 fi
 
