@@ -50,5 +50,6 @@ fi
 export_keys
 export_server_secret
 export_client_conf
+set_client_keys
 set_remote
 create_package
