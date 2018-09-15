@@ -3,15 +3,22 @@
 . /root/files/commons.sh
 
 echo_template() {
-	echo "Use: setup-server <server_name>"
+	echo "Use: setup-server <server_name> [-force-dhp]"
 }
 
 server_name=$1
+optional_force_dhp=$2
 
 if [ -z "${server_name}" ]; then
 	echo "Asign a valid server name!"
 	echo_template
 	exit 0
+fi
+
+if [ "$optional_force_dhp" = "-force-dhp" ]; then
+	force_dhp=true
+else
+	force_dhp=false
 fi
 
 name=$server_name
@@ -38,7 +45,18 @@ else
 	ca_needs_update=true
 fi
 
-generate_dhparam
+if [ -f "$dhps_dir/$dhp_name" ]; then
+	echo "DH param for '$server_name' exist in CA"
+	if [ "$force_dhp" = true ]; then
+		echo "Force DH param generation (-force-dhp)"
+		generate_dhparam
+		ca_needs_update=true
+	fi
+else
+	echo "DH param for '$server_name' doesn't exist in CA"
+	generate_dhparam
+	ca_needs_update=true
+fi
 
 if [ "$ca_needs_update" = true ] ; then
 	update_ca_package

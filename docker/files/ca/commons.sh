@@ -65,7 +65,7 @@ generate_server_secret() {
 }
 
 generate_dhparam() {
-	echo "Generate Diffie-Hellman parameter (DHP)"
+	echo "Generate Diffie-Hellman parameter (DH param)"
 	# Generate Diffie-Hellman parameter. This is a set of randomly
 	# generated data used when establishing Perfect Forward Secrecy
 	# during creation of a client's session key. The default size is
@@ -99,7 +99,7 @@ export_server_secret() {
 }
 
 export_dhparam() {
-	echo "Export DHP (dhp.pem)"
+	echo "Export DH param (dhp.pem)"
 	rm -f $export_dir/dhp.pem
 	cp $dhps_dir/$dhp_name $export_dir/dhp.pem
 }

@@ -9,6 +9,7 @@ echo_template() {
 client_name=$1
 server_name=$2
 server_address=$3
+optional_force_compact=$4
 
 if [ -z "${client_name}" ]; then
 	echo "Asign a valid client name!"
@@ -28,7 +29,7 @@ if [ -z "${server_address}" ]; then
 	exit 0
 fi
 
-if [ "$4" = "-compact" ]; then
+if [ "$optional_force_compact" = "-compact" ]; then
 	compact=true
 else
 	compact=false
@@ -59,6 +60,7 @@ export_client_conf
 set_remote
 
 if [ "$compact" = true ]; then
+	echo "Force compact client configuration (-compact)"
 	set_client_keys_compact
 	output_client_conf_compact
 else
