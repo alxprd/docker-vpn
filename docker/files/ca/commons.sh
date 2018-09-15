@@ -104,6 +104,12 @@ export_dhparam() {
 	cp $dhps_dir/$dhp_name $export_dir/dhp.pem
 }
 
+export_revoked_certs_file() {
+	echo "Export revoked certificates file (crl.pem)"
+	rm -f $export_dir/crl.pem
+	cp $ca_keys_dir/crl.pem $export_dir/crl.pem
+}
+
 export_server_conf() {
 	echo "Export server config (server.conf)"
 	rm -f $export_dir/server.conf

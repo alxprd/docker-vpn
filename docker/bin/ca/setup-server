@@ -58,6 +58,11 @@ else
 	ca_needs_update=true
 fi
 
+if [ ! -f "$ca_keys_dir/crl.pem" ]; then
+	echo "Generate empty revoked certificates file (crl.pem)"
+	touch $ca_keys_dir/crl.pem
+fi
+
 if [ "$ca_needs_update" = true ] ; then
 	update_ca_package
 fi
@@ -65,5 +70,6 @@ fi
 export_keys
 export_server_secret
 export_dhparam
+export_revoked_certs_file
 export_server_conf
 create_package
