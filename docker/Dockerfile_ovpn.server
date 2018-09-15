@@ -1,13 +1,14 @@
 FROM alpine:latest
 
 # Install iptables to use iptables
-RUN apk add --no-cache openvpn iptables
+RUN apk add --no-cache openvpn iptables dnsmasq
 
 # By default, OpenVPN runs as root. The user nobody given in the server.conf template has fewer privileges than root. If nobody gets compromised, the intruder will have access to processes running as the nobody user. This can include Apache when using mod_php, various NFS mounts and some cron jobs. Forcing OpenVPN to run as its own exclusive user and group is a good way to isolate it from other processes, especially if you will also be hosting a web or file server on the same host as your VPN. Create a new user account and group for the OpenVPN daemon to run as after startup. The name 'ovpn' is used as an example.
 
 # Create 'ovpn' group and user for safety:
 RUN addgroup -S ovpn && adduser -G ovpn -SDHs /sbin/nologin ovpn
 
+COPY files/server/dnsmasq.conf /etc/dnsmasq.conf
 COPY files/server/ /root/files/
 
 COPY bin/server/ /usr/local/bin/

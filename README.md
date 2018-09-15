@@ -108,6 +108,11 @@ Check public IP:
 curl ipinfo.io/ip
 ```
 
+Check incoming DNS requests with dnsmasq:
+```
+dnsmasq --no-daemon -q
+```
+
 ### OpenVPN configuration templates:
 
 - [Server](https://raw.githubusercontent.com/OpenVPN/openvpn/master/sample/sample-config-files/server.conf)
@@ -118,5 +123,7 @@ curl ipinfo.io/ip
 - [Setup a hardened OpenVPN server](https://www.linode.com/docs/networking/vpn/set-up-a-hardened-openvpn-server/).
 - [Tunnel your internet traffic through an OpenVPN server](https://www.linode.com/docs/networking/vpn/tunnel-your-internet-traffic-through-an-openvpn-server/).
 - [How to run OpenVPN in a Docker container on Ubuntu 14.04](https://www.digitalocean.com/community/tutorials/how-to-run-openvpn-in-a-docker-container-on-ubuntu-14-04/).
-- [How to set-up an OpenVPN server on Debian 9](https://www.digitalocean.com/community/tutorials/how-to-set-up-an-openvpn-server-on-debian-9)
+- [How to setup an OpenVPN server on Debian 9](https://www.digitalocean.com/community/tutorials/how-to-set-up-an-openvpn-server-on-debian-9)
 - [OpenVPN HOWTO](https://openvpn.net/howto).
+- [Alpine Linux dnsmasq config](https://chiefio.wordpress.com/2016/11/14/alpine-pi-dnsmasq-lighttpd-squid-web-server-proxy-server/)
+- [How to setup dnsmasq as DNS DHCP](https://blogging.dragon.org.uk/howto-setup-dnsmasq-as-dns-dhcp/)
