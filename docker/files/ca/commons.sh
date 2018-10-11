@@ -147,10 +147,10 @@ set_client_keys() {
 
 set_client_keys_compact() {
 	echo "Set CA files content inside client config (COMPACT!)"
-	local content_ca=$(cat $export_dir/ca.crt)
-	local content_crt=$(cat $export_dir/${type_keys}.crt)
-	local content_key=$(cat $export_dir/${type_keys}.key)
-	local content_ta=$(cat $export_dir/ta.key)
+	content_ca=$(cat $export_dir/ca.crt)
+	content_crt=$(cat $export_dir/${type_keys}.crt)
+	content_key=$(cat $export_dir/${type_keys}.key)
+	content_ta=$(cat $export_dir/ta.key)
 	perl -i -pe "s~ca <ca.crt>~<ca>\n$content_ca\n</ca>~g" $export_dir/client.ovpn
 	perl -i -pe "s~cert <client.crt>~<cert>\n$content_crt\n</cert>~g" $export_dir/client.ovpn
 	perl -i -pe "s~key <client.key>~<key>\n$content_key\n</key>~g" $export_dir/client.ovpn

@@ -16,7 +16,7 @@ do
 	esac
 done
 
-shift $(($OPTIND-1))
+shift $OPTIND
 
 if [ -z "${server_package_path}" ]; then
 	echo "Asign a valid server package path!"

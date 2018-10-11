@@ -19,7 +19,7 @@ do
 	esac
 done
 
-shift $(($OPTIND-1))
+shift $OPTIND
 
 if [ -z "${ca_package_path}" ]; then
 	echo "Asign a valid CA package path!"

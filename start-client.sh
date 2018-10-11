@@ -16,7 +16,7 @@ do
 	esac
 done
 
-shift $(($OPTIND-1))
+shift $OPTIND
 
 if [ -z "${client_package_path}" ]; then
 	echo "Asign a valid client package path!"
