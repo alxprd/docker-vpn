@@ -116,6 +116,12 @@ export_server_conf() {
 	cp /root/files/server.conf $export_dir/server.conf
 }
 
+set_tunnel_all_traffic() {
+	echo "Set server as gateway for all clients internet traffic and DNS queries"
+	perl -i -pe 's~;push "redirect-gateway def1 bypass-dhcp"~push "redirect-gateway def1 bypass-dhcp"~g' $export_dir/server.conf
+	perl -i -pe 's~;push "dhcp-option DNS 10.8.0.1"~push "dhcp-option DNS 10.8.0.1"~g' $export_dir/server.conf
+}
+
 export_client_conf() {
 	echo "Export client config (client.ovpn)"
 	rm -f $export_dir/client.ovpn
@@ -141,10 +147,10 @@ set_client_keys() {
 
 set_client_keys_compact() {
 	echo "Set CA files content inside client config (COMPACT!)"
-	content_ca=$(cat $export_dir/ca.crt)
-	content_crt=$(cat $export_dir/${type_keys}.crt)
-	content_key=$(cat $export_dir/${type_keys}.key)
-	content_ta=$(cat $export_dir/ta.key)
+	local content_ca=$(cat $export_dir/ca.crt)
+	local content_crt=$(cat $export_dir/${type_keys}.crt)
+	local content_key=$(cat $export_dir/${type_keys}.key)
+	local content_ta=$(cat $export_dir/ta.key)
 	perl -i -pe "s~ca <ca.crt>~<ca>\n$content_ca\n</ca>~g" $export_dir/client.ovpn
 	perl -i -pe "s~cert <client.crt>~<cert>\n$content_crt\n</cert>~g" $export_dir/client.ovpn
 	perl -i -pe "s~key <client.key>~<key>\n$content_key\n</key>~g" $export_dir/client.ovpn

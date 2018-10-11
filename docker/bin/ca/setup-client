@@ -3,13 +3,26 @@
 . /root/files/commons.sh
 
 echo_template() {
-	echo "Use: setup-client <client_name> <server_name> <server_address> [-compact]"
+	echo "Help: setup-client -h"
+	echo "Use:  setup-client -a <ca_package_path> -c <client_name> -s <server_name> -r <server_address> [-com(p)act]"
 }
 
-client_name=$1
-server_name=$2
-server_address=$3
-optional_force_compact=$4
+# Default optional values:
+client_name=''
+server_name=''
+server_address=''
+compact=false
+
+while getopts 'ha:c:s:r:p' optp
+do
+  case $optp in
+		h) echo_template; exit 0 ;;
+		c) client_name=$OPTARG ;;
+		s) server_name=$OPTARG ;;
+		r) server_address=$OPTARG ;;
+		p) compact=true ;;
+  esac
+done
 
 if [ -z "${client_name}" ]; then
 	echo "Asign a valid client name!"
@@ -27,12 +40,6 @@ if [ -z "${server_address}" ]; then
 	echo "Asign a valid server address!"
 	echo_template
 	exit 0
-fi
-
-if [ "$optional_force_compact" = "-compact" ]; then
-	compact=true
-else
-	compact=false
 fi
 
 name=$client_name
@@ -60,7 +67,7 @@ export_client_conf
 set_remote
 
 if [ "$compact" = true ]; then
-	echo "Force compact client configuration (-compact)"
+	echo "Force compact client configuration (-p)"
 	set_client_keys_compact
 	output_client_conf_compact
 else

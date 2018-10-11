@@ -3,22 +3,29 @@
 . /root/files/commons.sh
 
 echo_template() {
-	echo "Use: setup-server <server_name> [-force-dhp]"
+	echo "Help: setup-server -h"
+	echo "Use:  setup-server -a <ca_package_path> -s <server_name> [-force_(d)hp_gen] [-force_t(u)nnel_all_traffic]"
 }
 
-server_name=$1
-optional_force_dhp=$2
+# Default optional values:
+server_name=''
+force_dhp_gen=false
+force_tunnel_all_traffic=false
+
+while getopts 'ha:s:du' optp
+do
+  case $optp in
+		h) echo_template; exit 0 ;;
+		s) server_name=$OPTARG ;;
+    d) force_dhp_gen=true ;;
+		u) force_tunnel_all_traffic=true ;;
+  esac
+done
 
 if [ -z "${server_name}" ]; then
 	echo "Asign a valid server name!"
 	echo_template
 	exit 0
-fi
-
-if [ "$optional_force_dhp" = "-force-dhp" ]; then
-	force_dhp=true
-else
-	force_dhp=false
 fi
 
 name=$server_name
@@ -47,8 +54,8 @@ fi
 
 if [ -f "$dhps_dir/$dhp_name" ]; then
 	echo "DH param for '$server_name' exist in CA"
-	if [ "$force_dhp" = true ]; then
-		echo "Force DH param generation (-force-dhp)"
+	if [ "$force_dhp_gen" = true ]; then
+		echo "Force DH param generation (-d)"
 		generate_dhparam
 		ca_needs_update=true
 	fi
@@ -72,4 +79,10 @@ export_server_secret
 export_dhparam
 export_revoked_certs_file
 export_server_conf
+
+if [ "$force_tunnel_all_traffic" = true ]; then
+	echo "Force tunnel all traffic (-u)"
+	set_tunnel_all_traffic
+fi
+
 create_package

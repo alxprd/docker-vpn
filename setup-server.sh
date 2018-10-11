@@ -1,7 +1,17 @@
 #!/bin/sh
 
-ca_package_path=$1
-shift # After shift, what used to be $1 has been removed from the list
+#ca_package_path=$1
+#shift # After shift, what used to be $1 has been removed from the list
+
+# Default optional values:
+ca_package_path=''
+
+while getopts 'ha:s:du' optp
+do
+  case $optp in
+		a) ca_package_path=$OPTARG ;;
+  esac
+done
 
 if [ -z "${ca_package_path}" ]; then
 	echo "Asign a valid CA package path!"
@@ -26,4 +36,3 @@ docker run --name vpn-setup-server --rm \
 	-v $ca_package_path:/root/ca.tar \
 	-v $PWD/data:/root/output \
 	-it alxprd/vpn:ca setup-server "$@"
-
