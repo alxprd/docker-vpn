@@ -4,7 +4,7 @@
 
 echo_template() {
 	echo "Help: setup-client -h"
-	echo "Use:  setup-client -a <ca_package_path> -c <client_name> -s <server_name> -r <server_address> [-com(p)act]"
+	echo "Use:  setup-client -c <client_name> -s <server_name> -r <server_address> [-com(p)act]"
 }
 
 # Default param values:
@@ -13,7 +13,7 @@ server_name=''
 server_address=''
 compact=false
 
-while getopts 'ha:c:s:r:p' optp
+while getopts 'hc:s:r:p' optp
 do
   case $optp in
 		h) echo_template; exit 0 ;;

@@ -1,20 +1,30 @@
 #!/bin/sh
 
+echo_template() {
+	echo "Help: ./setup-server.sh -h"
+	echo "Use:  ./setup-server.sh -a <ca_package_path> ..."
+}
+
 #ca_package_path=$1
 #shift # After shift, what used to be $1 has been removed from the list
 
 # Default param values:
 ca_package_path=''
 
-while getopts 'ha:s:du' optp
+arr=($1 $2)
+while getopts 'ha:' optp "${arr[@]}"
 do
   case $optp in
+		h) echo_template; exit 0 ;;
 		a) ca_package_path=$OPTARG ;;
   esac
 done
 
+shift $(($OPTIND-1))
+
 if [ -z "${ca_package_path}" ]; then
 	echo "Asign a valid CA package path!"
+	echo_template
 	exit 0
 fi
 

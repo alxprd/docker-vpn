@@ -1,19 +1,27 @@
 #!/bin/sh
 
+echo_template() {
+	echo "Help: ./start-client.sh -h"
+	echo "Use:  ./start-client.sh -c <client_config_path> ..."
+}
+
 # Default param values:
 client_package_path=''
-force_remote=''
 
-while getopts 'hc:r:' optp
+arr=($1 $2)
+while getopts 'hc:' optp "${arr[@]}"
 do
   case $optp in
+    h) echo_template; exit 0 ;;
 		c) client_package_path=$OPTARG ;;
-		r) force_remote="-r $OPTARG" ;;
   esac
 done
 
+shift $(($OPTIND-1))
+
 if [ -z "${client_package_path}" ]; then
 	echo "Asign a valid client package path!"
+  echo_template
 	exit 0
 fi
 
@@ -34,4 +42,4 @@ ext="${filename##*.}"
 
 docker run --name "vpn-client-${client_name}" --rm --privileged \
 	-v $client_package_path:/root/client.$ext:ro \
-	-d alxprd/vpn:client start-client $force_remote
+	-it alxprd/vpn:client start-client "$@"

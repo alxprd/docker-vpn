@@ -4,7 +4,7 @@
 
 echo_template() {
 	echo "Help: setup-server -h"
-	echo "Use:  setup-server -a <ca_package_path> -s <server_name> [-force_(d)hp_gen] [-force_t(u)nnel_all_traffic]"
+	echo "Use:  setup-server -s <server_name> [-force_(d)hp_gen] [-force_t(u)nnel_all_traffic]"
 }
 
 # Default param values:
@@ -12,7 +12,7 @@ server_name=''
 force_dhp_gen=false
 force_tunnel_all_traffic=false
 
-while getopts 'ha:s:du' optp
+while getopts 'hs:du' optp
 do
   case $optp in
 		h) echo_template; exit 0 ;;
