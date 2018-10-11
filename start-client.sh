@@ -42,4 +42,4 @@ ext="${filename##*.}"
 
 docker run --name "vpn-client-${client_name}" --rm --privileged \
 	-v $client_package_path:/root/client.$ext:ro \
-	-it alxprd/vpn:client start-client "$@"
+	-d alxprd/vpn:client start-client "$@"
