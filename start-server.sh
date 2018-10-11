@@ -10,17 +10,17 @@ server_package_path=''
 
 while getopts 'hc:' optp "$1$2"
 do
-  case $optp in
-    h) echo_template; exit 0 ;;
+	case $optp in
+		h) echo_template; exit 0 ;;
 		c) server_package_path=$OPTARG ;;
-  esac
+	esac
 done
 
 shift $(($OPTIND-1))
 
 if [ -z "${server_package_path}" ]; then
 	echo "Asign a valid server package path!"
-  echo_template
+	echo_template
 	exit 0
 fi
 
@@ -36,6 +36,8 @@ if [ ! -f "$server_package_path" ]; then
 fi
 
 server_name=$(basename "${server_package_path%.*}")
+
+echo "GINAL: a${server_package_path}b"
 
 docker run --name "vpn-server-${server_name}" --rm --privileged -p 1194:1194/udp \
 	-v $server_package_path:/root/server.zip:ro \

@@ -15,13 +15,13 @@ compact=false
 
 while getopts 'hc:s:r:p' optp
 do
-  case $optp in
+	case $optp in
 		h) echo_template; exit 0 ;;
 		c) client_name=$OPTARG ;;
 		s) server_name=$OPTARG ;;
 		r) server_address=$OPTARG ;;
 		p) compact=true ;;
-  esac
+	esac
 done
 
 if [ -z "${client_name}" ]; then

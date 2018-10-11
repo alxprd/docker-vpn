@@ -14,12 +14,12 @@ force_tunnel_all_traffic=false
 
 while getopts 'hs:du' optp
 do
-  case $optp in
+	case $optp in
 		h) echo_template; exit 0 ;;
 		s) server_name=$OPTARG ;;
     d) force_dhp_gen=true ;;
 		u) force_tunnel_all_traffic=true ;;
-  esac
+	esac
 done
 
 if [ -z "${server_name}" ]; then

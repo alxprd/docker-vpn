@@ -10,17 +10,17 @@ client_package_path=''
 
 while getopts 'hc:' optp "$1$2"
 do
-  case $optp in
-    h) echo_template; exit 0 ;;
+	case $optp in
+		h) echo_template; exit 0 ;;
 		c) client_package_path=$OPTARG ;;
-  esac
+	esac
 done
 
 shift $(($OPTIND-1))
 
 if [ -z "${client_package_path}" ]; then
 	echo "Asign a valid client package path!"
-  echo_template
+	echo_template
 	exit 0
 fi
 

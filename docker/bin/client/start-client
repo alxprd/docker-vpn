@@ -10,10 +10,10 @@ force_remote=''
 
 while getopts 'hr:' optp
 do
-  case $optp in
+	case $optp in
 		h) echo_template; exit 0 ;;
 		r) force_remote=$OPTARG ;;
-  esac
+	esac
 done
 
 mkdir -p /etc/openvpn/client

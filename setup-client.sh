@@ -13,10 +13,10 @@ ca_package_path=''
 
 while getopts 'ha:' optp "$1$2"
 do
-  case $optp in
+	case $optp in
 		h) echo_template; exit 0 ;;
 		a) ca_package_path=$OPTARG ;;
-  esac
+	esac
 done
 
 shift $(($OPTIND-1))
