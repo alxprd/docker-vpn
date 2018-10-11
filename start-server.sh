@@ -41,4 +41,4 @@ echo "GINAL: a${server_package_path}b"
 
 docker run --name "vpn-server-${server_name}" --rm --privileged -p 1194:1194/udp \
 	-v $server_package_path:/root/server.zip:ro \
-	-d alxprd/vpn:server "$@"
+	-d alxprd/vpn:server start-server "$@"
