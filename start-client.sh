@@ -8,8 +8,7 @@ echo_template() {
 # Default param values:
 client_package_path=''
 
-arr=($1 $2)
-while getopts 'hc:' optp "${arr[@]}"
+while getopts 'hc:' optp "$1$2"
 do
   case $optp in
     h) echo_template; exit 0 ;;

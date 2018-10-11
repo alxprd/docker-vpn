@@ -11,8 +11,7 @@ echo_template() {
 # Default param values:
 ca_package_path=''
 
-arr=($1 $2)
-while getopts 'ha:' optp "${arr[@]}"
+while getopts 'ha:' optp "$1$2"
 do
   case $optp in
 		h) echo_template; exit 0 ;;
