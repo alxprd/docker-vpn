@@ -3,7 +3,7 @@
 #ca_package_path=$1
 #shift # After shift, what used to be $1 has been removed from the list
 
-# Default optional values:
+# Default param values:
 ca_package_path=''
 
 while getopts 'ha:c:s:r:p' optp

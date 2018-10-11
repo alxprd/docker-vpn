@@ -1,6 +1,14 @@
 #!/bin/sh
 
-server_package_path=$1
+# Default param values:
+server_package_path=''
+
+while getopts 'hc:' optp
+do
+  case $optp in
+		c) server_package_path=$OPTARG ;;
+  esac
+done
 
 if [ -z "${server_package_path}" ]; then
 	echo "Asign a valid server package path!"

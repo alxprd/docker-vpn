@@ -7,7 +7,7 @@ echo_template() {
 	echo "Use:  setup-client -a <ca_package_path> -c <client_name> -s <server_name> -r <server_address> [-com(p)act]"
 }
 
-# Default optional values:
+# Default param values:
 client_name=''
 server_name=''
 server_address=''

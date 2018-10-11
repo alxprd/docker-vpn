@@ -1,6 +1,16 @@
 #!/bin/sh
 
-client_package_path=$1
+# Default param values:
+client_package_path=''
+force_remote=''
+
+while getopts 'hc:r:' optp
+do
+  case $optp in
+		c) client_package_path=$OPTARG ;;
+		r) force_remote="-r $OPTARG" ;;
+  esac
+done
 
 if [ -z "${client_package_path}" ]; then
 	echo "Asign a valid client package path!"
@@ -24,4 +34,4 @@ ext="${filename##*.}"
 
 docker run --name "vpn-client-${client_name}" --rm --privileged \
 	-v $client_package_path:/root/client.$ext:ro \
-	-d alxprd/vpn:client
+	-d alxprd/vpn:client start-client $force_remote

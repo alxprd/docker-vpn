@@ -7,7 +7,7 @@ echo_template() {
 	echo "Use:  setup-server -a <ca_package_path> -s <server_name> [-force_(d)hp_gen] [-force_t(u)nnel_all_traffic]"
 }
 
-# Default optional values:
+# Default param values:
 server_name=''
 force_dhp_gen=false
 force_tunnel_all_traffic=false

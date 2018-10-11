@@ -1,12 +1,44 @@
 #!/bin/sh
 
+echo_template() {
+	echo "Help: start-client -h"
+	echo "Use:  start-client [-force_(r)emote]"
+}
+
+# Default param values:
+force_remote=''
+
+while getopts 'hr:' optp
+do
+  case $optp in
+		h) echo_template; exit 0 ;;
+		r) force_remote=$OPTARG ;;
+  esac
+done
+
+mkdir -p /etc/openvpn/client
+
 if [ -f "/root/client.ovpn" ]; then
-	openvpn /root/client.ovpn
+	cp /root/client.ovpn /etc/openvpn/client/
 elif [ -f "/root/client.zip" ]; then
-	mkdir -p /etc/openvpn/client
 	unzip /root/client.zip -d /etc/openvpn/client
-	openvpn /etc/openvpn/client/client.ovpn
 else
 	echo "No file 'client.ovpn' found!"
 	exit 0
 fi
+
+if [ -z "${force_remote}" ]; then
+	echo "Force remote server address to '$force_remote'"
+	sed -i -r -e "s/^\s*remote\s+\S+\s+/remote $force_remote /g" /etc/openvpn/client/client.ovpn
+	# ^\s*#$
+	# ^  - The beginning of the line
+	# \s - A whitespace character
+	# *  - 0 or more times
+	# \S - A non-whitespace character
+	# +  - 1 or more times
+	# remote - just a the literal 'remote'
+	# s/.../.../ - substitute
+	# /g - global (keep searching until the end of the line)
+fi
+
+openvpn /etc/openvpn/client/client.ovpn
