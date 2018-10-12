@@ -7,16 +7,18 @@ echo_template() {
 
 # Default param values:
 server_package_path=''
+management=''
 
-while getopts 'hc:' optp "$1$2"
+while getopts 'hc:m:' optp
 do
 	case $optp in
 		h) echo_template; exit 0 ;;
 		c) server_package_path=$OPTARG ;;
+		m) management=$OPTARG ;;
 	esac
 done
 
-shift $OPTIND
+shift 2
 
 if [ -z "${server_package_path}" ]; then
 	echo "Asign a valid server package path!"
@@ -35,8 +37,15 @@ if [ ! -f "$server_package_path" ]; then
 	exit 0
 fi
 
+if [ ! -z "${management}" ]; then
+	port=$(echo ${management} | cut -d':' -f2)
+	management_port="-p ${port}:${port}"
+else
+	management_port=''
+fi
+
 server_name=$(basename "${server_package_path%.*}")
 
-docker run --name "vpn-server-${server_name}" --rm --privileged -p 1194:1194/udp  -p 80:80 \
+docker run --name "vpn-server-${server_name}" --rm --privileged -p 1194:1194/udp ${management_port} \
 	-v $server_package_path:/root/server.zip:ro \
 	-d alxprd/vpn:server start-server "$@"

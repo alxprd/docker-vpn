@@ -1,1 +1,40 @@
-FROM ruimarinho/openvpn-monitor
+FROM ubuntu
+
+RUN apt-get update && apt-get -y install \
+  git \
+  wget \
+  apache2 \
+  libapache2-mod-wsgi \
+  python-geoip2 \
+  python-ipaddr \
+  python-humanize \
+  python-bottle \
+  python-semantic-version \
+  geoip-database-extra \
+  geoipupdate
+
+RUN echo "WSGIScriptAlias /openvpn-monitor /var/www/html/openvpn-monitor/openvpn-monitor.py" > /etc/apache2/conf-available/openvpn-monitor.conf
+
+RUN a2enconf openvpn-monitor
+
+RUN mkdir -p /var/www/html/openvpn-monitor \
+  && cd /var/www/html/openvpn-monitor \
+  && git clone https://github.com/furlongm/openvpn-monitor.git .
+
+RUN wget http://geolite.maxmind.com/download/geoip/database/GeoLite2-City.tar.gz -O - | tar -vxzf - -C /var/lib/GeoIP/ --no-anchored GeoLite2-City.mmdb --strip-components=1
+
+# -v: Verbose (show progress while extracting files).
+# -x: Instructs tar to extract files.
+# -z: Filter archive through gzip, use to decompress .gz files.
+# -j: Filter archive through bzip2, use to decompress .bz2 files.
+# -f: Specifies filename / tarball name.
+# -C: Output dir.
+# –wildcards: Instructs tar to treat command line arguments as globbing patterns.
+# –no-anchored: Informs it that the patterns apply to member names after any / delimiter.
+
+COPY bin/monitor/ /usr/local/bin/
+RUN chmod a+x /usr/local/bin/*
+
+EXPOSE 80
+
+CMD ["start-monitor"]

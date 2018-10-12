@@ -2,21 +2,29 @@
 
 echo_template() {
 	echo "Help: ./start-monitor.sh -h"
-	echo "Use:  ./start-monitor.sh -s <server_name> ..."
+	echo "Use:  ./start-monitor.sh -c <config_monitor_path> -s <server_name> ..."
 }
 
 # Default param values:
+config_monitor_path=''
 server_name=''
 
-while getopts 'hs:' optp "$1$2"
+while getopts 'hc:s:' optp
 do
 	case $optp in
 		h) echo_template; exit 0 ;;
+		c) config_monitor_path=$OPTARG ;;
 		s) server_name=$OPTARG ;;
 	esac
 done
 
 shift $OPTIND
+
+if [ -z "${config_monitor_path}" ]; then
+	echo "Asign a valid monitor config file path!"
+	echo_template
+	exit 0
+fi
 
 if [ -z "${server_name}" ]; then
 	echo "Asign a valid server name!"
@@ -24,20 +32,20 @@ if [ -z "${server_name}" ]; then
 	exit 0
 fi
 
-docker run --name "vpn-monitor-${server_name}" --rm --net=container:"vpn-server-${server_name}" \
-	-e OPENVPNMONITOR_DEFAULT_DATETIMEFORMAT="%%d/%%m/%%Y" \
-	-e OPENVPNMONITOR_DEFAULT_LATITUDE=-37 \
-	-e OPENVPNMONITOR_DEFAULT_LONGITUDE=144 \
-	-e OPENVPNMONITOR_DEFAULT_MAPS=True \
-	-e OPENVPNMONITOR_DEFAULT_SITE=Test \
-	-e OPENVPNMONITOR_SITES_0_ALIAS=UDP-alias \
-	-e OPENVPNMONITOR_SITES_0_HOST=127.0.0.1 \
-	-e OPENVPNMONITOR_SITES_0_NAME=UDP-name \
-	-e OPENVPNMONITOR_SITES_0_PORT=5555 \
-	-e OPENVPNMONITOR_SITES_1_ALIAS=TCP-alias \
-	-e OPENVPNMONITOR_SITES_1_HOST=127.0.0.1 \
-	-e OPENVPNMONITOR_SITES_1_NAME=TCP-name \
-	-e OPENVPNMONITOR_SITES_1_PORT=5555 \
+# If it's a relative path adds $PWD to make it work with Docker
+case $config_monitor_path in
+	/*) ;;
+	*) config_monitor_path=$PWD/$config_monitor_path ;;
+esac
+
+if [ ! -f "$config_monitor_path" ]; then
+	echo "Monitor config file '$config_monitor_path' doesn't exist!"
+	exit 0
+fi
+
+docker run --name "vpn-monitor-${server_name}" --rm -p 80:80 \
+	-v $config_monitor_path:/var/www/html/openvpn-monitor/openvpn-monitor.conf:ro \
 	-d alxprd/vpn:monitor
 
+# --net=container:"vpn-server-${server_name}"
 #	-e OPENVPNMONITOR_DEFAULT_LOGO=logo.jpg \

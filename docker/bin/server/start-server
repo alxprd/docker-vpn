@@ -1,5 +1,21 @@
 #!/bin/sh
 
+echo_template() {
+	echo "Help: start-server -h"
+	echo "Use:  start-server [-(m)anagement <ip:port>]"
+}
+
+# Default param values:
+management=''
+
+while getopts 'hm:' optp
+do
+	case $optp in
+		h) echo_template; exit 0 ;;
+		m) management=$OPTARG ;;
+	esac
+done
+
 #iptables -F && iptables -X
 #ip6tables -F && ip6tables -X
 #iptables-restore < /root/files/rules.v4
@@ -16,8 +32,31 @@ dnsmasq
 if [ -f "/root/server.zip" ]; then
 	mkdir -p /etc/openvpn/server
 	unzip /root/server.zip -d /etc/openvpn/server
-	openvpn /etc/openvpn/server/server.conf
 else
 	echo "No file 'server.conf' found!"
 	exit 0
 fi
+
+if [ ! -z "${management}" ]; then
+
+	management_ip=$(echo ${management} | cut -d':' -f1)
+	management_port=$(echo ${management} | cut -d':' -f2)
+
+	if [ -z "${management_ip}" ]; then
+		echo "Asign a valid management ip!"
+		echo_template
+		exit 0
+	fi
+
+	if [ -z "${management_port}" ]; then
+		echo "Asign a valid management port!"
+		echo_template
+		exit 0
+	fi
+
+	echo "Management enabled in '${management}'"
+	sed -i -e "s/;management <ip> <port>/management ${management_ip} ${management_port}/g" /etc/openvpn/server/server.conf
+
+fi
+
+openvpn /etc/openvpn/server/server.conf
