@@ -2,7 +2,7 @@
 
 echo_template() {
 	echo "Help: start-server -h"
-	echo "Use:  start-server [-(m)anagement <ip:port>]"
+	echo "Use:  start-server [-(m)anagement <remote-ip:port>]"
 }
 
 # Default param values:
@@ -55,8 +55,27 @@ if [ ! -z "${management}" ]; then
 	fi
 
 	echo "Management enabled in '${management}'"
-	sed -i -e "s/;management <ip> <port>/management ${management_ip} ${management_port}/g" /etc/openvpn/server/server.conf
+	#sed -i -e "s/;management <ip> <port>/management ${management_ip} ${management_port}/g" /etc/openvpn/server/server.conf
 
+
+	# Munin:
+
+	#sed -i -e "s/allow \^::1\$/allow \^::1\$\nallow \^${management_ip}\$/g" /etc/munin/munin-node.conf
+	#sed -i -e "s/allow \^::1\$/allow \^::1\$\nallow \^172.17.0.2\$/g" /etc/munin/munin-node.conf
+
+	sed -i -e "s/port 4949/port ${management_port}/g" /etc/munin/munin-node.conf
+	echo "IPPP: ${management_ip}"
+
+	#management_ip="172.17.0.2"
+	#fixed_ip=$(sed 's|\.|\\\.|g' <<< $management_ip)
+	fixed_ip=${management_ip//./\\.}
+	echo "allow ^${fixed_ip}\$" >> /etc/munin/munin-node.conf
+
+	#munin-node-configure --shell --families=contrib,auto | sh -x
+
+	#servie munin-node restart
+	#rc-service munin-node restart
+	munin-node
 fi
 
 openvpn /etc/openvpn/server/server.conf

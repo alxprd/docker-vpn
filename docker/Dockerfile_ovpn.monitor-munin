@@ -26,7 +26,8 @@ RUN apt-get install -y \
 #    systemd \
 
 RUN apt-get install -y \
-  nano
+  nano \
+  net-tools
 
 #RUN a2enmod fcgid
 

@@ -1,5 +1,28 @@
 #!/bin/sh
 
+echo_template() {
+	echo "Help: start-monitor -h"
+	echo "Use:  start-monitor [-vpn-(a)ddress <vpn_ip>]"
+}
+
+# Default param values:
+vpn_ip=''
+
+while getopts 'ha:' optp
+do
+	case $optp in
+		h) echo_template; exit 0 ;;
+		a) vpn_ip=$OPTARG ;;
+	esac
+done
+
+if [ -z "${vpn_ip}" ]; then
+	echo "Asign a valid vpn IP!"
+	echo_template
+	exit 0
+fi
+
+sed -i -e "s~address <vpn-ip>~address ${vpn_ip}~g" /etc/munin/munin.conf
 apache2 -v
 
 service apache2 restart

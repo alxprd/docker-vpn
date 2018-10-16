@@ -23,6 +23,10 @@ sed -i -e "s~#tmpldir\s*/etc/munin/templates~tmpldir /etc/munin/templates~g" /et
 
 sed -i -e "s~\[localhost.localdomain\]~\[MuninMaster\]~g" /etc/munin/munin.conf
 
+echo "[VPN]" >> /etc/munin/munin.conf
+echo "    address <vpn-ip>" >> /etc/munin/munin.conf
+echo "    use_node_name yes" >> /etc/munin/munin.conf
+
 #sed -i -e "s~Alias /munin /var/cache/munin/www~Alias /munin /var/www/munin~g" /etc/munin/apache.conf
 
 #sed -i -e "s~<Directory /var/cache/munin/www>~<Directory /var/www/munin>~g" /etc/munin/apache.conf
