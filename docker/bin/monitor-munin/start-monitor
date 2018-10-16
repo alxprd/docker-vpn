@@ -5,4 +5,6 @@ apache2 -v
 service apache2 restart
 service munin-node restart
 
+su - munin --shell=/bin/bash -c munin-cron
+
 #apachectl -D FOREGROUND
