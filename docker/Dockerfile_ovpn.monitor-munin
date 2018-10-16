@@ -1,0 +1,44 @@
+# stretch:
+#FROM debian:9
+# trusty:
+#FROM ubuntu:14.04
+# xenial:
+#FROM ubuntu:16.04
+# bionic:
+FROM ubuntu:18.04
+
+#RUN echo "deb http://ftp.debian.org/debian stretch-backports main" >> /etc/apt/sources.list.d/backports.list
+
+RUN apt-get update && apt-get install -y \
+  apache2 \
+  apache2-utils
+
+RUN apt-get install -y \
+  libcgi-fast-perl \
+  libapache2-mod-fcgid
+
+#RUN apt-get -t stretch-backports install -y \
+RUN apt-get install -y \
+  munin \
+  munin-node \
+  munin-plugins-extra
+
+#    systemd \
+
+RUN apt-get install -y \
+  nano
+
+#RUN a2enmod fcgid
+
+COPY files/monitor-munin/ /root/files/
+
+RUN /root/files/config-munin.sh
+
+COPY bin/monitor-munin/ /usr/local/bin/
+RUN chmod a+x /usr/local/bin/*
+
+EXPOSE 80
+
+#WORKDIR /root
+
+#CMD ["start-monitor"]

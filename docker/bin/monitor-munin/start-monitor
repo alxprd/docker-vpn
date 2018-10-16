@@ -1,0 +1,8 @@
+#!/bin/sh
+
+apache2 -v
+
+service apache2 restart
+service munin-node restart
+
+#apachectl -D FOREGROUND
