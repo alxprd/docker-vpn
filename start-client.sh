@@ -40,5 +40,6 @@ filename=$(basename "$client_package_path")
 ext="${filename##*.}"
 
 docker run --name "vpn-client-${client_name}" --rm --privileged \
+  --net vpn-host-net \
 	-v $client_package_path:/root/client.$ext:ro \
 	-d alxprd/vpn:client start-client "$@"

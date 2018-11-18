@@ -47,5 +47,7 @@ fi
 server_name=$(basename "${server_package_path%.*}")
 
 docker run --name "vpn-server-${server_name}" --rm --privileged -p 1194:1194/udp ${management_port} \
+  --net vpn-host-net \
 	-v $server_package_path:/root/server.zip:ro \
+	-v $PWD/config/collectd/collectd-vpn.conf:/etc/collectd/collectd.conf:ro \
 	-d alxprd/vpn:server start-server "$@"

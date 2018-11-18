@@ -59,4 +59,6 @@ if [ ! -z "${management}" ]; then
 
 fi
 
+exec /usr/sbin/collectd -C /etc/collectd/collectd.conf &
+
 openvpn /etc/openvpn/server/server.conf

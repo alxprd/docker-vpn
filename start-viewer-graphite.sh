@@ -1,6 +1,7 @@
 #!/bin/sh
 
 docker run --name "graphite" --rm \
+  --net vpn-host-net \
   -p 80:80 \
   -p 2003-2004:2003-2004 \
   -p 2023-2024:2023-2024 \
@@ -11,4 +12,4 @@ docker run --name "graphite" --rm \
   -v $PWD/config/statsd:/opt/statsd \
   -it graphiteapp/graphite-statsd
 
-#  --restart=always \
+# Default user root|root
