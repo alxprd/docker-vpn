@@ -1,0 +1,14 @@
+FROM alpine:latest
+
+RUN apk add --no-cache \
+  collectd \
+  collectd-rrdtool
+
+COPY bin/collectd/ /usr/local/bin/
+RUN chmod a+x /usr/local/bin/*
+
+# Internally uses port 1194/udp, remap using 'docker run -p 443:1194/tcp'
+#EXPOSE 8990/udp
+#EXPOSE 8990
+
+CMD ["start-collectd"]
