@@ -1,6 +1,6 @@
 #!/bin/sh
 
-#mkdir -p $PWD/data/grafana # creates a folder for your data
+mkdir -p $PWD/data/grafana # creates a folder for your data
 ID=$(id -u) # saves your user id in the ID variable
 
 # starts grafana with your user id and using the data folder
@@ -8,5 +8,6 @@ ID=$(id -u) # saves your user id in the ID variable
 #  -d alxprd/vpn:monitor-grafana
 
 docker run --name "vpn-monitor-grafana" --user $ID --rm -p 3000:3000 \
+  -e "GF_SECURITY_ADMIN_PASSWORD=hunter2" \
   -v "$PWD/data/grafana:/var/lib/grafana" \
-  -d alxprd/vpn:monitor-grafana
+  -it alxprd/vpn:monitor-grafana
