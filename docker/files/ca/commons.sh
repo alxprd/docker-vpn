@@ -122,6 +122,11 @@ set_tunnel_all_traffic() {
 	perl -i -pe 's~;push "dhcp-option DNS 10.8.0.1"~push "dhcp-option DNS 10.8.0.1"~g' $export_dir/server.conf
 }
 
+allow_clients_connected() {
+	echo "Allow clients to see each other"
+	perl -i -pe 's~;client-to-client~client-to-client~g' $export_dir/server.conf
+}
+
 export_client_conf() {
 	echo "Export client config (client.ovpn)"
 	rm -f $export_dir/client.ovpn

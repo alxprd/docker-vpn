@@ -6,7 +6,9 @@ echo_template() {
 }
 
 # Default param values:
-management=''
+if [ -z "$management" ]; then
+	management=''
+fi
 
 while getopts 'hm:' optp
 do

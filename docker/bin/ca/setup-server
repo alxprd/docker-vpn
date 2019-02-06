@@ -4,21 +4,23 @@
 
 echo_template() {
 	echo "Help: setup-server -h"
-	echo "Use:  setup-server -s <server_name> [-force_(d)hp_gen] [-force_t(u)nnel_all_traffic]"
+	echo "Use:  setup-server -s <server_name> [-force_(d)hp_gen] [-force_t(u)nnel_all_traffic] [-allow-(c)lients-connected]"
 }
 
 # Default param values:
 server_name=''
 force_dhp_gen=false
 force_tunnel_all_traffic=false
+allow_clients_connected=false
 
-while getopts 'hs:du' optp
+while getopts 'hs:duc' optp
 do
 	case $optp in
 		h) echo_template; exit 0 ;;
 		s) server_name=$OPTARG ;;
-    d) force_dhp_gen=true ;;
+		d) force_dhp_gen=true ;;
 		u) force_tunnel_all_traffic=true ;;
+		c) allow_clients_connected=true ;;
 	esac
 done
 
@@ -83,6 +85,11 @@ export_server_conf
 if [ "$force_tunnel_all_traffic" = true ]; then
 	echo "Force tunnel all traffic (-u)"
 	set_tunnel_all_traffic
+fi
+
+if [ "$allow_clients_connected" = true ]; then
+	echo "Allow clients connected (-c)"
+	allow_clients_connected
 fi
 
 create_package
