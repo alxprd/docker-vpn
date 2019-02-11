@@ -34,7 +34,7 @@ dnsmasq
 if [ -f "/root/server.zip" ]; then
 	mkdir -p /etc/openvpn/server
 	unzip /root/server.zip -d /etc/openvpn/server
-else
+elif [ ! -f "/etc/openvpn/server/server.conf" ]; then
 	echo "No file 'server.conf' found!"
 	exit 0
 fi
